@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Оюутны мэдээлэл</title>
+</head>
+<body>
+    <h1 id="output"></h1>
+
+    <label for="searchName">Нэр оруулна уу: </label>
+    <input type="text" id="searchName">
+    <button onclick="searchAndDisplay()">Хайх</button>
+    <button onclick="displayPassed()">Тэнцсэн оюутнууд</button>
+    <button onclick="displayFailed()">Тэнцээгүй оюутнууд</button>
+
+    <br><br>
+
+    <script>
+        const students = [
+            ["Жаргал", 19, 75],
+            ["Сүхбаатар", 20, 45],
+            ["Мөнхтогтох", 18, 85],
+            ["Жаргал", 22, 55],
+            ["Амаржаргал", 21, 67]
+        ];
+
+        function searchByName(studentName) {
+            let result = [];
+            for (let i = 0; i < students.length; i++) {
+                if (students[i][0] === studentName) {
+                    result.push(students[i]);
+                }
+            }
+            return result.length > 0 ? result : null; 
+        }
+
+       
+        function searchAndDisplay() {
+            let searchName = document.getElementById("searchName").value;
+            let studentInfo = searchByName(searchName); 
+
+            let result = "";
+            if (studentInfo) {
+                
+                studentInfo.forEach(student => {
+                    let passStatus = student[2] >= 60 ? "Тэнцсэн" : "Тэнцээгүй";
+                    result += `Нэр: ${student[0]}, Нас: ${student[1]}, Элсэлтийн дүн: ${student[2]}, Статус: ${passStatus}<br>`;
+                });
+            } else {
+               
+                result = "Тухайн нэртэй оюутан олдсонгүй.";
+            }
+
+           
+            document.getElementById("output").innerHTML = result;
+        }
+
+        
+        function displayPassed() {
+            let result = "Тэнцсэн оюутнууд: <br>";
+            let searchName = document.getElementById("searchName").value; 
+            let studentInfo = searchByName(searchName); 
+
+            if (studentInfo) {
+                studentInfo.forEach(student => {
+                    if (student[2] >= 60) { 
+                        result += `Нэр: ${student[0]}, Нас: ${student[1]}, Элсэлтийн дүн: ${student[2]}, Статус: Тэнцсэн<br>`;
+                    }
+                });
+            } else {
+                
+                for (let i = 0; i < students.length; i++) {
+                    if (students[i][2] >= 60) { 
+                        result += `Нэр: ${students[i][0]}, Нас: ${students[i][1]}, Элсэлтийн дүн: ${students[i][2]}, Статус: Тэнцсэн<br>`;
+                    }
+                }
+            }
+            
+            document.getElementById("output").innerHTML = result;
+        }   
+
+        
+        function displayFailed() {
+            let result = "Тэнцээгүй оюутнууд: <br>";
+            let searchName = document.getElementById("searchName").value; 
+            let studentInfo = searchByName(searchName); 
+
+            if (studentInfo) {
+                
+                studentInfo.forEach(student => {
+                    if (student[2] < 60) { 
+                        result += `Нэр: ${student[0]}, Нас: ${student[1]}, Элсэлтийн дүн: ${student[2]}, Статус: Тэнцээгүй<br>`;
+                    }
+                });
+            } else {
+                
+                for (let i = 0; i < students.length; i++) {
+                    if (students[i][2] < 60) { 
+                        result += `Нэр: ${students[i][0]}, Нас: ${students[i][1]}, Элсэлтийн дүн: ${students[i][2]}, Статус: Тэнцээгүй<br>`;
+                    }
+                }
+            }
+
+            document.getElementById("output").innerHTML = result;
+        }
+
+       
+        let allStudentsOutput = "Бүх оюутнууд: <br>";
+        for (let i = 0; i < students.length; i++) {
+            let passStatus = students[i][2] >= 60 ? "Тэнцсэн" : "Тэнцээгүй";
+            allStudentsOutput += `Нэр: ${students[i][0]}, Нас: ${students[i][1]}, Элсэлтийн дүн: ${students[i][2]}, Статус: ${passStatus}<br>`;
+        }
+        document.getElementById("output").innerHTML = allStudentsOutput;
+
+    </script>
+</body>
+</html>
